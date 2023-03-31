@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.bosh.tutorialmod.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "SheepShearMixin"
+  ],
+  "client": [
+    "ExampleMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
