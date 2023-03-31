@@ -12,6 +12,7 @@ import org.apache.commons.lang3.text.WordUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Stream;
 
 
 public class ItemGenerator {
@@ -19,8 +20,6 @@ public class ItemGenerator {
         List<Item> commonBases = new ArrayList<>();
         commonBases.add(Items.WOODEN_AXE);
         commonBases.add(Items.WOODEN_HOE);
-        commonBases.add(Items.DIAMOND_PICKAXE);
-        commonBases.add(Items.WOODEN_AXE);
         commonBases.add(Items.BOW);
         commonBases.add(Items.TRIDENT);
         commonBases.add(Items.CROSSBOW);
@@ -92,23 +91,23 @@ public class ItemGenerator {
         //Default to None (White Wool)
         String rarity = "None";
         Random rgen = new Random();
-        Integer i = rgen.nextInt(1, 10001);
-        if(i > 9999){
+        Integer r = rgen.nextInt(1, 10001);
+        if(r > 7000){ //9999 TODO
             rarity = "Legendary";
-        } else if(i > 9995){
+        } else if(r > 5000){ //9995 TODO
             Integer i2 = rgen.nextInt(1, 3);
-            if(i == 1){
+            if(i2 == 1){
                 rarity = "Epic";
-            } else if(i == 2){
+            } else if(i2 == 2){
                 rarity = "Exalted";
             }
-        } else if(i > 9975){
+        } else if(r > 4000){ //9975 TODO
             rarity = "Superb";
-        } else if(i > 9875){
+        } else if(r > 3000){ //9875 TODO
             rarity = "Rare";
-        } else if(i > 9375){
+        } else if(r > 2000){ //9375 TODO
             rarity = "Uncommon";
-        } else if(i > 6875){
+        } else if(r > 1){ //6875 TODO
             rarity = "Common";
         }
 
@@ -137,6 +136,180 @@ public class ItemGenerator {
 
         //Add enchantments TODO
 
+        List<Enchantment> coreEnchantments = new ArrayList<>();
+        coreEnchantments.add(Enchantments.MENDING);
+        coreEnchantments.add(Enchantments.UNBREAKING);
+
+        List<Enchantment> armourEnchantments = new ArrayList<>();
+        armourEnchantments.add(Enchantments.PROTECTION);
+        armourEnchantments.add(Enchantments.PROJECTILE_PROTECTION);
+        armourEnchantments.add(Enchantments.FIRE_PROTECTION);
+        armourEnchantments.add(Enchantments.BLAST_PROTECTION);
+        armourEnchantments.add(Enchantments.THORNS);
+
+        List<Enchantment> helmEnchantments = new ArrayList<>();
+        helmEnchantments.add(Enchantments.AQUA_AFFINITY);
+        helmEnchantments.add(Enchantments.RESPIRATION);
+
+        List<Enchantment> leggingEnchantments = new ArrayList<>();
+        leggingEnchantments.add(Enchantments.SWIFT_SNEAK);
+
+        List<Enchantment> bootsEnchantments = new ArrayList<>();
+        bootsEnchantments.add(Enchantments.FEATHER_FALLING);
+        bootsEnchantments.add(Enchantments.SOUL_SPEED);
+        bootsEnchantments.add(Enchantments.FROST_WALKER);
+        bootsEnchantments.add(Enchantments.DEPTH_STRIDER);
+
+        List<Enchantment> swordEnchantments = new ArrayList<>();
+        swordEnchantments.add(Enchantments.FIRE_ASPECT);
+        swordEnchantments.add(Enchantments.LOOTING);
+        swordEnchantments.add(Enchantments.KNOCKBACK);
+        swordEnchantments.add(Enchantments.SWEEPING);
+
+        List<Enchantment> axeSwordEnchantments = new ArrayList<>();
+        axeSwordEnchantments.add(Enchantments.SHARPNESS);
+        axeSwordEnchantments.add(Enchantments.SMITE);
+        axeSwordEnchantments.add(Enchantments.BANE_OF_ARTHROPODS);
+
+        List<Enchantment> toolEnchantments = new ArrayList<>();
+        toolEnchantments.add(Enchantments.EFFICIENCY);
+        toolEnchantments.add(Enchantments.FORTUNE);
+        toolEnchantments.add(Enchantments.SILK_TOUCH);
+
+        List<Enchantment> rodEnchantments = new ArrayList<>();
+        rodEnchantments.add(Enchantments.LURE);
+        rodEnchantments.add(Enchantments.LUCK_OF_THE_SEA);
+
+        List<Enchantment> tridentEnchantments = new ArrayList<>();
+        tridentEnchantments.add(Enchantments.IMPALING);
+        tridentEnchantments.add(Enchantments.CHANNELING);
+        tridentEnchantments.add(Enchantments.LOYALTY);
+        tridentEnchantments.add(Enchantments.RIPTIDE);
+
+        List<Enchantment> crossbowEnchantments = new ArrayList<>();
+        crossbowEnchantments.add(Enchantments.QUICK_CHARGE);
+        crossbowEnchantments.add(Enchantments.PIERCING);
+        crossbowEnchantments.add(Enchantments.MULTISHOT);
+
+        List<Enchantment> bowEnchantments = new ArrayList<>();
+        bowEnchantments.add(Enchantments.INFINITY);
+        bowEnchantments.add(Enchantments.POWER);
+        bowEnchantments.add(Enchantments.PUNCH);
+        bowEnchantments.add(Enchantments.FLAME);
+
+        List<Enchantment> usableEnchantments = new ArrayList<>();
+        usableEnchantments.addAll(coreEnchantments);
+
+        if(base.toString().contains("sword")){
+            usableEnchantments.addAll(swordEnchantments);
+            usableEnchantments.addAll(axeSwordEnchantments);
+
+        } else if(base.toString().contains("hoe") || base.toString().contains("pickaxe") || base.toString().contains("shovel")){
+            usableEnchantments.addAll(toolEnchantments);
+
+        } else if(base.toString().contains("axe")){
+            usableEnchantments.addAll(toolEnchantments);
+            usableEnchantments.addAll(axeSwordEnchantments);
+
+        } else if(base.toString().contains("crossbow")){
+            usableEnchantments.addAll(bowEnchantments);
+
+        } else if(base.toString().contains("bow")) {
+            usableEnchantments.addAll(crossbowEnchantments);
+
+        } else if(base.toString().contains("trident")){
+            usableEnchantments.addAll(tridentEnchantments);
+
+        } else if(base.toString().contains("rod")){
+            usableEnchantments.addAll(rodEnchantments);
+
+        } else if(base.toString().contains("helmet")){
+            usableEnchantments.addAll(armourEnchantments);
+            usableEnchantments.addAll(helmEnchantments);
+
+        } else if(base.toString().contains("chestplate")){
+            usableEnchantments.addAll(armourEnchantments);
+
+        } else if(base.toString().contains("leggings")){
+            usableEnchantments.addAll(armourEnchantments);
+            usableEnchantments.addAll(leggingEnchantments);
+
+        } else if(base.toString().contains("boots")){
+            usableEnchantments.addAll(armourEnchantments);
+            usableEnchantments.addAll(bootsEnchantments);
+        }
+
+        //Determine number of enchantments based on rarity
+
+        /*Integer numberofenchants = switch(rarity){
+            case "Epic" -> rgen.nextInt(1, 5);
+            case "Superb" -> rgen.nextInt(1, 4);
+            case "Rare" -> rgen.nextInt(1, 3) ;
+            case "Uncommon" -> rgen.nextInt(1, 2) ;
+            case "Common" -> 1 ;
+            default -> new Integer(0);
+        };*/
+
+        switch(rarity){
+            case "Legendary":
+                Enchantment _e = Enchantments.UNBREAKING;
+                drop.addEnchantment(Enchantments.UNBREAKING, 10);
+                usableEnchantments.remove(_e);
+                for (Enchantment e:usableEnchantments){
+                     drop.addEnchantment(e, e.getMaxLevel());
+                }
+                break;
+            case "Epic":
+                for(int i = 0; i < 5; i++){
+                    if( usableEnchantments.size() < 1) {
+                        break;
+                    }
+                    Enchantment e = usableEnchantments.get(rgen.nextInt(1, (usableEnchantments.size() + 1)));
+                    drop.addEnchantment(e, rgen.nextInt(1, 5));
+                    usableEnchantments.remove(e);
+                }
+                break;
+            case "Superb":
+                for(int i = 0; i < 4; i++){
+                    if( usableEnchantments.size() < 1) {
+                        break;
+                    }
+                    Enchantment e = usableEnchantments.get(rgen.nextInt(1, (usableEnchantments.size() + 1)));
+                    drop.addEnchantment(e, rgen.nextInt(1, 4));
+                    usableEnchantments.remove(e);
+                }
+                break;
+            case "Rare":
+                for(int i = 0; i < 3; i++){
+                    if( usableEnchantments.size() < 1) {
+                        break;
+                    }
+                    Enchantment e = usableEnchantments.get(rgen.nextInt(1, (usableEnchantments.size() + 1)));
+                    drop.addEnchantment(e, rgen.nextInt(1, 3));
+                    usableEnchantments.remove(e);
+                }
+                break;
+            case "Uncommon":
+                for(int i = 0; i < 2; i++){
+                    if( usableEnchantments.size() < 1) {
+                        break;
+                    }
+                    Enchantment e = usableEnchantments.get(rgen.nextInt(1,(usableEnchantments.size()+1)));
+                    drop.addEnchantment(e, rgen.nextInt(1, 2));
+                    usableEnchantments.remove(e);
+                }
+                break;
+            case "Common":
+                drop.addEnchantment(usableEnchantments.get(rgen.nextInt(1,(usableEnchantments.size()+1))), rgen.nextInt(1, 2));
+                break;
+            case "Exalted":
+                Enchantment e = Enchantments.UNBREAKING;
+                drop.addEnchantment(Enchantments.UNBREAKING, 10);
+                usableEnchantments.remove(e);
+                drop.addEnchantment(usableEnchantments.get(rgen.nextInt(1,(usableEnchantments.size()+1))), 10);
+                break;
+            }
+
         //Set custom name if an item drops
         String rarityprefix = switch (rarity) {
             case "Legendary" -> "§6Legendary";
@@ -155,80 +328,6 @@ public class ItemGenerator {
         }
 
         return drop;
-
-
-
-
-/*
-Swords
-Axes
-Bow
-Trident
-Crossbow
-Helm
-Chest
-Boots
-Legs
-Shield
-
-Wooden
-Iron
-Chain
-Diamond
-Netherite
-
-Common - Wooden / Leather 0-1 Enchants
-Uncommon - Chain Armour / Stone 1-2 Enchants
-Rare - Iron 2-3 Enchanges
-Superb - Diamond 3-4 Enchants
-Epic - Netherite 4-5 Enchants
-Legendary - Netherite Maxed 5 Enchants
-Exalted - Diamond DoubleMax 1 Enchant
-
-
-Establish rarity
-    Generate a random number between 1 and 10000
-    If number is greater than 9999 - Legendary
-    elif number is greater than 9995 - Epic
-    elif number is greater than 9975 - Superb
-    elif number is greater than 9875 - Rare
-    elif number is greater than 9375 - Uncommon
-    elif number is greater than 6875 - Common
-    else: - Gold nugget
-
-Establish Item
-    Generate a random number between 1 and 10
-    1 - Weapons
-        1 - Swords
-        2 - Axes
-        3 - Bow
-        4 - Trident
-        5 - Crossbow
-    2 - Armour
-        6 - Helm
-        7 - Chest
-        8 - Boots
-        9 - Legs
-        10 - Shield
-    3 - Tools
-        11 - Pickaxe
-        12 - Shovel
-
-Determine Number of Enchantments
-    Generate a random number between 1 and 2
-    1 - Lower Bound
-    2 - Upper Bound
-
-Determine Enchantments
-    Assume unbreaking
-
-Determine Enchantment Strength
-    Assume Unbreaking 3
-
- */
-
-
-
 
     }
 }
