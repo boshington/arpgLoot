@@ -1,6 +1,5 @@
-package net.bosh.tutorialmod;
+package net.bosh.arpglootmod;
 
-import com.google.common.base.CaseFormat;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
@@ -12,7 +11,6 @@ import org.apache.commons.lang3.text.WordUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Stream;
 
 
 public class ItemGenerator {
@@ -90,27 +88,27 @@ public class ItemGenerator {
         String rarity = "None";
         Random rgen = new Random();
         Integer r = rgen.nextInt(1, 10001);
-        if(r > 7000){ //9999 TODO
+        if(r > 9999){ //9999 TODO
             rarity = "Legendary";
-        } else if(r > 5000){ //9995 TODO
+        } else if(r > 9995){ //9995 TODO
             Integer i2 = rgen.nextInt(1, 3);
             if(i2 == 1){
                 rarity = "Epic";
             } else if(i2 == 2){
                 rarity = "Exalted";
             }
-        } else if(r > 4000){ //9975 TODO
+        } else if(r > 9975){ //9975 TODO
             rarity = "Superb";
-        } else if(r > 3000){ //9875 TODO
+        } else if(r > 9875){ //9875 TODO
             rarity = "Rare";
-        } else if(r > 2000){ //9375 TODO
+        } else if(r > 9375){ //9375 TODO
             rarity = "Uncommon";
-        } else if(r > 1){ //6875 TODO
+        } else if(r > 6875){ //6875 TODO
             rarity = "Common";
         }
 
         //Determine Base
-        Item base = Items.WHITE_WOOL;
+        Item base = Items.IRON_NUGGET;
         switch (rarity) {
             case "Legendary", "Epic" -> {
                 base = epicBases.get(rgen.nextInt(0, epicBases.size() ));
@@ -131,13 +129,6 @@ public class ItemGenerator {
 
         //Create Item Stack
         ItemStack drop = new ItemStack(base);
-
-        //Add enchantments TODO
-
-
-        // Enchantments based off enchanttarget TODO
-        // for e
-
         List<Enchantment> coreEnchantments = new ArrayList<>();
         coreEnchantments.add(Enchantments.MENDING);
         coreEnchantments.add(Enchantments.UNBREAKING);

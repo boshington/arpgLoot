@@ -1,6 +1,5 @@
-package net.bosh.tutorialmod;
+package net.bosh.arpglootmod;
 
-import jdk.jfr.EventFactory;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityCombatEvents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;

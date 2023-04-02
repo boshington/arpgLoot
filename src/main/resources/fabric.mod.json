@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "id": "tutorialmod",
+  "id": "arpglootmod",
   "version": "${version}",
 
-  "name": "Tutorial Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Action RPG Loot Mod",
+  "description": "Mobs Drop Loot!",
   "authors": [
     "bosh"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/boshington/arpgLoot",
+    "sources": "https://github.com/boshington/arpgLoot"
   },
 
   "license": "MIT License",
@@ -19,14 +19,14 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.bosh.tutorialmod.TutorialMod"
+      "net.bosh.arpglootmod.ARPGLootMod"
     ],
     "client": [
-      "net.bosh.tutorialmod.TutorialModClient"
+      "net.bosh.arpglootmod.ARPGLootModClient"
     ]
   },
   "mixins": [
-    "tutorialmod.mixins.json"
+    "arpglootmod.mixins.json"
 
   ],
 
