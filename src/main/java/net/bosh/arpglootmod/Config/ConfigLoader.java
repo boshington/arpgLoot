@@ -27,19 +27,19 @@ public class ConfigLoader {
     }
 
     private static void createConfigs() {
-        conf.addKeyValuePair(new Pair<>("LEGENDARY_CHANCE", 10000));
+        conf.addKeyValuePair(new Pair<>("LEGENDARY_CHANCE", 1000));
         conf.addComment("Minimum 2 -- 1 in X chance of an enemy dropping a legendary item");
-        conf.addKeyValuePair(new Pair<>("EPIC_CHANCE", 2000));
+        conf.addKeyValuePair(new Pair<>("EPIC_CHANCE", 200));
         conf.addComment("Minimum 2 -- 1 in X chance of an enemy dropping a legendary item");
-        conf.addKeyValuePair(new Pair<>("EXALTED_CHANCE", 2000 ));
+        conf.addKeyValuePair(new Pair<>("EXALTED_CHANCE", 200 ));
         conf.addComment("Minimum 2 -- 1 in X chance of an enemy dropping a legendary item");
-        conf.addKeyValuePair(new Pair<>("SUPERB_CHANCE", 400));
+        conf.addKeyValuePair(new Pair<>("SUPERB_CHANCE", 100));
         conf.addComment("Minimum 2 -- 1 in X chance of an enemy dropping a legendary item");
-        conf.addKeyValuePair(new Pair<>("RARE_CHANCE", 80));
+        conf.addKeyValuePair(new Pair<>("RARE_CHANCE", 50));
         conf.addComment("Minimum 2 -- 1 in X chance of an enemy dropping a legendary item");
-        conf.addKeyValuePair(new Pair<>("UNCOMMON_CHANCE", 20));
+        conf.addKeyValuePair(new Pair<>("UNCOMMON_CHANCE", 25));
         conf.addComment("Minimum 2 -- 1 in X chance of an enemy dropping a legendary item");
-        conf.addKeyValuePair(new Pair<>("COMMON_CHANCE", 4));
+        conf.addKeyValuePair(new Pair<>("COMMON_CHANCE", 10));
         conf.addComment("Minimum 2 -- 1 in X chance of an enemy dropping a legendary item");
         conf.addKeyValuePair(new Pair<>("ENABLE_INCOMPATIBLE_ENCHANTS", "DISABLED"));
         conf.addComment("DISABLED or ENABLED -- If Enabled, it is possible for items to roll multiple exclusive enchants e.g. fortune and silk touch");
@@ -48,13 +48,13 @@ public class ConfigLoader {
     }
 
     private static void assignConfigs() {
-        LEGENDARY_CHANCE = CONFIG.getOrDefault( "LEGENDARY_CHANCE", 10000 );
-        EPIC_CHANCE = CONFIG.getOrDefault( "EPIC_CHANCE", 2000 );
-        EXALTED_CHANCE = CONFIG.getOrDefault( "EXALTED_CHANCE", 2000 );
-        SUPERB_CHANCE = CONFIG.getOrDefault( "SUPERB_CHANCE", 400 );
-        RARE_CHANCE = CONFIG.getOrDefault( "RARE_CHANCE", 80 );
-        UNCOMMON_CHANCE = CONFIG.getOrDefault( "UNCOMMON_CHANCE", 20 );
-        COMMON_CHANCE = CONFIG.getOrDefault( "COMMON_CHANCE", 4 );
+        LEGENDARY_CHANCE = CONFIG.getOrDefault( "LEGENDARY_CHANCE", 1000 );
+        EPIC_CHANCE = CONFIG.getOrDefault( "EPIC_CHANCE", 200 );
+        EXALTED_CHANCE = CONFIG.getOrDefault( "EXALTED_CHANCE", 200 );
+        SUPERB_CHANCE = CONFIG.getOrDefault( "SUPERB_CHANCE", 100 );
+        RARE_CHANCE = CONFIG.getOrDefault( "RARE_CHANCE", 50 );
+        UNCOMMON_CHANCE = CONFIG.getOrDefault( "UNCOMMON_CHANCE", 25 );
+        COMMON_CHANCE = CONFIG.getOrDefault( "COMMON_CHANCE", 10 );
         ENABLE_INCOMPATIBLE_ENCHANTS = CONFIG.getOrDefault("ENABLE_INCOMPATIBLE_ENCHANTS", "DISABLED");
         ENABLE_WILD_ENCHANTS = CONFIG.getOrDefault("ENABLE_WILD_ENCHANTS", "DISABLED");
     }

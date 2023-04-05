@@ -132,7 +132,6 @@ public class ItemGenerator{
         //Create Item Stack
         ItemStack drop = new ItemStack(base);
         List<Enchantment> coreEnchantments = new ArrayList<>();
-        coreEnchantments.add(Enchantments.MENDING);
         coreEnchantments.add(Enchantments.UNBREAKING);
         coreEnchantments.add(Enchantments.PROTECTION);
         coreEnchantments.add(Enchantments.PROJECTILE_PROTECTION);
@@ -243,14 +242,17 @@ public class ItemGenerator{
             case ("Epic") -> {
                 rolls = 5;
                 maxEnchant = 5;
+                enchants.add(Enchantments.MENDING);
             }
             case ("Superb") -> {
                 rolls = 4;
                 maxEnchant = 4;
+                enchants.add(Enchantments.MENDING);
             }
             case ("Rare") -> {
                 rolls = 3;
                 maxEnchant = 3;
+                enchants.add(Enchantments.MENDING);
             }
             case ("Common") -> {
                 rolls = 1;
