@@ -1,5 +1,6 @@
-package net.bosh.arpglootmod;
+package net.bosh.arpglootmod.Logic;
 
+import net.bosh.arpglootmod.Config.ConfigLoader;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
@@ -7,13 +8,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import org.apache.commons.lang3.text.WordUtils;
+import org.apache.logging.log4j.core.tools.Generate;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 
-public class ItemGenerator {
+public class ItemGenerator{
     public ItemStack generateDrop() {
         List<Item> commonBases = new ArrayList<>();
         commonBases.add(Items.WOODEN_AXE);
@@ -85,25 +87,25 @@ public class ItemGenerator {
 
         //Pick Rarity
         //Default to None (White Wool)
+
+
         String rarity = "None";
         Random rgen = new Random();
-        Integer r = rgen.nextInt(1, 10001);
-        if(r > 9999){ //9999 TODO
+
+        if(rgen.nextInt(0, ConfigLoader.LEGENDARY_CHANCE) == 1){ //9999 TODO
             rarity = "Legendary";
-        } else if(r > 9995){ //9995 TODO
-            Integer i2 = rgen.nextInt(1, 3);
-            if(i2 == 1){
-                rarity = "Epic";
-            } else if(i2 == 2){
-                rarity = "Exalted";
-            }
-        } else if(r > 9975){ //9975 TODO
+
+        } else if(rgen.nextInt(0, ConfigLoader.EPIC_CHANCE) == 1){ //9995 TODO
+            rarity = "Epic";
+        } else if(rgen.nextInt(0, ConfigLoader.EXALTED_CHANCE) == 1){ //9975 TODO
+            rarity = "Exalted";
+        }else if(rgen.nextInt(0, ConfigLoader.SUPERB_CHANCE) == 1){ //9975 TODO
             rarity = "Superb";
-        } else if(r > 9875){ //9875 TODO
+        } else if(rgen.nextInt(0, ConfigLoader.RARE_CHANCE) == 1){ //9875 TODO
             rarity = "Rare";
-        } else if(r > 9375){ //9375 TODO
+        } else if(rgen.nextInt(0, ConfigLoader.UNCOMMON_CHANCE) == 1){ //9375 TODO
             rarity = "Uncommon";
-        } else if(r > 6875){ //6875 TODO
+        } else if(rgen.nextInt(0, ConfigLoader.COMMON_CHANCE) == 1){ //6875 TODO
             rarity = "Common";
         }
 
@@ -170,12 +172,17 @@ public class ItemGenerator {
 
         List<Enchantment> usableEnchantments = new ArrayList<>();
 
-        for (Enchantment e:coreEnchantments){
-            if(e.isAcceptableItem(drop)){
-                usableEnchantments.add(e);
+        boolean wild = ConfigLoader.ENABLE_WILD_ENCHANTS == "ENABLED";
+
+        if(wild){
+            usableEnchantments = coreEnchantments;
+        } else {
+            for (Enchantment e:coreEnchantments){
+                if(e.isAcceptableItem(drop)){
+                    usableEnchantments.add(e);
+                }
             }
         }
-
         //Determine number of enchantments based on rarity
 
         /*Integer numberofenchants = switch(rarity){
@@ -186,76 +193,8 @@ public class ItemGenerator {
             case "Common" -> 1 ;
             default -> new Integer(0);
         };*/
-
-        int availEnchants = usableEnchantments.size();
-        int rolls = 0;
-
-        switch(rarity){
-            case "Legendary":
-                Enchantment _e = Enchantments.UNBREAKING;
-                drop.addEnchantment(Enchantments.UNBREAKING, 10);
-                usableEnchantments.remove(_e);
-                for (Enchantment e:usableEnchantments){
-                     drop.addEnchantment(e, e.getMaxLevel());
-                }
-                break;
-            case "Epic":
-                rolls = Math.min(availEnchants, 5);
-                for(int i = 0; i < rolls; i++){
-                    // get usableEnchentments.size
-                    // use bigger value, usableEnchantments size or "Epic" value (5)
-
-                    if( usableEnchantments.size() < 1) {
-                        break;
-                    }
-                    Enchantment e = usableEnchantments.get(rgen.nextInt(0, (usableEnchantments.size())));
-                    drop.addEnchantment(e, rgen.nextInt(1, 5));
-                    usableEnchantments.remove(e);
-                }
-                break;
-            case "Superb":
-                rolls = Math.min(availEnchants, 4);
-                for(int i = 0; i < rolls; i++){
-                    if( usableEnchantments.size() < 1) {
-                        break;
-                    }
-                    Enchantment e = usableEnchantments.get(rgen.nextInt(0, (usableEnchantments.size())));
-                    drop.addEnchantment(e, rgen.nextInt(1, 4));
-                    usableEnchantments.remove(e);
-                }
-                break;
-            case "Rare":
-                rolls = Math.min(availEnchants, 3);
-                for(int i = 0; i < rolls; i++){
-                    if( usableEnchantments.size() < 1) {
-                        break;
-                    }
-                    Enchantment e = usableEnchantments.get(rgen.nextInt(0, (usableEnchantments.size())));
-                    drop.addEnchantment(e, rgen.nextInt(1, 3));
-                    usableEnchantments.remove(e);
-                }
-                break;
-            case "Uncommon":
-                rolls = Math.min(availEnchants, 2);
-                for(int i = 0; i < rolls; i++){
-                    if( usableEnchantments.size() < 1) {
-                        break;
-                    }
-                    Enchantment e = usableEnchantments.get(rgen.nextInt(0,(usableEnchantments.size())));
-                    drop.addEnchantment(e, rgen.nextInt(1, 2));
-                    usableEnchantments.remove(e);
-                }
-                break;
-            case "Common":
-                drop.addEnchantment(usableEnchantments.get(rgen.nextInt(0,(usableEnchantments.size()))), rgen.nextInt(1, 2));
-                break;
-            case "Exalted":
-                Enchantment e = Enchantments.UNBREAKING;
-                drop.addEnchantment(Enchantments.UNBREAKING, 10);
-                usableEnchantments.remove(e);
-                drop.addEnchantment(usableEnchantments.get(rgen.nextInt(0,(usableEnchantments.size()))), 10);
-                break;
-            }
+        //Do  enchanting.
+        drop = enchantDrop(drop, usableEnchantments, rarity);
 
         //Set custom name if an item drops
         String rarityprefix = switch (rarity) {
@@ -277,6 +216,105 @@ public class ItemGenerator {
         return drop;
 
     }
+
+    private boolean checkCompatibility(List<Enchantment> EnchantList, Enchantment EnchantToCheck){
+        if(EnchantList.isEmpty()){
+            return true;
+        }
+        for (Enchantment e:EnchantList){
+            if(!EnchantToCheck.canCombine(e)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private ItemStack enchantDrop(ItemStack item, List<Enchantment> enchants, String rarity) { //TODO Does this work?
+        int rolls = 0;
+        int maxEnchant = 0;
+
+        boolean incompatibleRule = ConfigLoader.ENABLE_INCOMPATIBLE_ENCHANTS == "ENABLED";
+        List<Enchantment> addedEnchantments = new ArrayList<>();
+        Random rgen = new Random();
+        ItemStack returnstack = item;
+
+
+        switch (rarity) {
+            case ("Epic") -> {
+                rolls = 5;
+                maxEnchant = 5;
+            }
+            case ("Superb") -> {
+                rolls = 4;
+                maxEnchant = 4;
+            }
+            case ("Rare") -> {
+                rolls = 3;
+                maxEnchant = 3;
+            }
+            case ("Common") -> {
+                rolls = 1;
+                maxEnchant = 2;
+            }
+            case ("Uncommon") -> {
+                rolls = 2;
+                maxEnchant = 2;
+            }
+            case ("Legendary") -> {
+                rolls = 6;
+                enchants.remove(Enchantments.UNBREAKING);
+            }
+            case ("Exalted") -> {
+                rolls = 1;
+                enchants.remove(Enchantments.UNBREAKING);
+            }
+            default -> {
+                return item;
+            }
+        }
+
+        if(rarity == "Legendary" || rarity == "Exalted"){
+            returnstack.addEnchantment(Enchantments.UNBREAKING, 10);
+        }
+
+        while (addedEnchantments.size() < rolls) {
+            if (enchants.size() < 1) {
+                break;
+            }
+            //Generate Random Enchantment
+            Enchantment random_enchant = enchants.get(rgen.nextInt(0, (enchants.size())));
+            //Check if Random Enchantment is compatible with all current enchantments
+            for (int i = 0; i < rolls; i++) {
+                if (!incompatibleRule) {
+                    if (checkCompatibility(addedEnchantments, random_enchant)) {
+                        addedEnchantments.add(random_enchant);
+                    }
+                } else {
+                    addedEnchantments.add(random_enchant);
+                }
+                enchants.remove(random_enchant);
+            }
+        }
+
+
+        for (Enchantment e : addedEnchantments) {
+            switch(rarity){
+                case("Legendary") -> {
+                    returnstack.addEnchantment(e, e.getMaxLevel());
+                }
+                case("Exalted") -> {
+                    returnstack.addEnchantment(e, 10);
+                }
+                default -> {
+                    returnstack.addEnchantment(e, rgen.nextInt(1, maxEnchant+1));
+                }
+            }
+        }
+
+        return returnstack;
+    }
+
+
 }
 
 

@@ -1,5 +1,6 @@
-package net.bosh.arpglootmod;
+package net.bosh.arpglootmod.Events;
 
+import net.bosh.arpglootmod.Logic.ItemGenerator;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityCombatEvents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
