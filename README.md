@@ -1,3 +1,5 @@
+Note: Deprecated
+
 # Bosh's Diablo Style ARPG Loot Mod
 
 Enemies drop ARPG style loot when killed.
